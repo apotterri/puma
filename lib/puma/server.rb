@@ -526,6 +526,7 @@ module Puma
         buffer.reset
 
         begin
+          STDERR.puts "client #{client.io.peeraddr[1]}, close_socket: #{close_socket}"
           client.close if close_socket
         rescue IOError, SystemCallError
           Thread.current.purge_interrupt_queue if Thread.current.respond_to? :purge_interrupt_queue
