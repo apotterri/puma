@@ -117,7 +117,7 @@ module Puma
         else
           string_block = [ "#{Time.now}: #{kind} error: #{error.inspect}" ]
         end
-        string_block << error.backtrace
+        # string_block << error.backtrace
         @stderr.puts string_block.join("\n")
       end
     end
