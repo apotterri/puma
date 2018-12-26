@@ -491,7 +491,10 @@ module Puma
         end
 
       # The client disconnected while we were reading data
-      rescue ConnectionError
+      rescue ConnectionError => e
+        peeraddr = client.io.peeraddr[1] rescue nil
+        STDERR.puts "[ #{peeraddr} ] process_client, ConnectionError: #{e.inspect}"
+        STDERR.puts e.backtrace
         # Swallow them. The ensure tries to close +client+ down
 
       # SSL handshake error
@@ -526,7 +529,7 @@ module Puma
         buffer.reset
 
         begin
-          STDERR.puts "client #{client.io.peeraddr[1]}, close_socket: #{close_socket}"
+          STDERR.puts "[ #{client.io.peeraddr[1]} ] process_client, close_socket: #{close_socket}"
           client.close if close_socket
         rescue IOError, SystemCallError
           Thread.current.purge_interrupt_queue if Thread.current.respond_to? :purge_interrupt_queue
