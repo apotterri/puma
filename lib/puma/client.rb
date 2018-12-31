@@ -120,8 +120,11 @@ module Puma
 
     def close
       begin
+        STDERR.puts "[#{@io.peeraddr[1]}] Client#close"
+        STDERR.puts caller.take(10).join("\n")
         @io.close
-      rescue IOError
+      rescue IOError => ex
+        STDERR.puts "[#{@io.peeraddr[1]}] Error closing #{@io.inspect}, #{ex.inspect}"
         Thread.current.purge_interrupt_queue if Thread.current.respond_to? :purge_interrupt_queue
       end
     end
