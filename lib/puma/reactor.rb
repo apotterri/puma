@@ -224,7 +224,7 @@ module Puma
             while @timeouts.first.timeout_at < now
               c = @timeouts.shift
               c.write_408 if c.in_data_phase
-              c.close
+              # c.close
               sockets.delete c
 
               break if @timeouts.empty?
