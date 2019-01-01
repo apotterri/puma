@@ -121,7 +121,7 @@ module Puma
     def close
       begin
         STDERR.puts "[#{@io.peeraddr[1]}] Client#close"
-        STDERR.puts caller.take(10).join("\n")
+        # STDERR.puts caller.take(10).join("\n")
         @io.close
       rescue IOError => ex
         STDERR.puts "[#{@io.peeraddr[1]}] Error closing #{@io.inspect}, #{ex.inspect}"
